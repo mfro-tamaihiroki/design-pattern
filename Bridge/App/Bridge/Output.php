@@ -6,6 +6,9 @@ use App\Brige\Interfaces\FileDataManageInterface;
 
 class Output
 {
+    /**
+     * @var FileDataManageInterface
+     */
     protected $data_manege;
 
     /**

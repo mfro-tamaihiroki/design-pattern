@@ -13,12 +13,12 @@ $csv_path = 'App/File/data.csv';
 
 
 echo('<h1>CSVの表示</h1>');
-$json = ReadFactory::getInstance(ReadFactory::READ_TYPE_JSON, $json_path);
+$json = ReadFactory::createOutputAuto(ReadFactory::READ_TYPE_JSON, $json_path);
 $json->read();
 $json->autoDisplay();
 
 
 echo('<h1>JSONの表示</h1>');
-$json = ReadFactory::getInstance(ReadFactory::READ_TYPE_CSV, $csv_path);
+$json = ReadFactory::createOutputAuto(ReadFactory::READ_TYPE_CSV, $csv_path);
 $json->read();
 $json->autoDisplay();
