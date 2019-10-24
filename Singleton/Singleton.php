@@ -12,13 +12,21 @@ class Singleton
         echo "インスタンスを生成しました。" . PHP_EOL;
     }
 
-    public static function getInstance()
+    /**
+     * @return Singleton
+     */
+    public final static function getInstance()
     {
         if (!isset(self::$singleton)) {
             self::$singleton = new Singleton();
         }
 
         return self::$singleton;
+    }
+
+    public function __clone()
+    {
+        throw new Exception("this instance is singleton class.");
     }
 
     public function getHash()
