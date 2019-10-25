@@ -6,7 +6,7 @@ namespace App\Brige\Interfaces;
  * Interface WriteFileInterface
  * @package App\Brige\Interfaces
  */
-interface WriteFileInterface
+interface OutputInterface
 {
     public function __construct(ReadFileInterface $input);
 
