@@ -12,7 +12,7 @@ class ElectricCar implements ElectricEngineInterface
 {
     public function electricOutput($ratio)
     {
-        echo('ガソリン：'.$ratio.' ％');
+        echo('エレクトロニックパワー！！！：'.$ratio.' ％');
     }
 
     public function running()
