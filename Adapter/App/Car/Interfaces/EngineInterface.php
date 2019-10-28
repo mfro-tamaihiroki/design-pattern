@@ -4,5 +4,5 @@ namespace App\Car\Interfaces;
 
 interface EngineInterface
 {
-    public function gasolineOutput($ratio);
+    public function gasolineOutput(int $ratio);
 }
