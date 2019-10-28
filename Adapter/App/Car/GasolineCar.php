@@ -6,7 +6,10 @@ use App\Car\Interfaces\EngineInterface;
 
 class GasolineCar implements EngineInterface
 {
-    public function gasolineOutput($ratio)
+    /**
+     * @param $ratio
+     */
+    public function gasolineOutput(int $ratio)
     {
         echo('ガソリン：'.$ratio.' ％');
     }
