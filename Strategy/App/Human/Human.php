@@ -38,4 +38,12 @@ class Human
         $this->height = rand(130, 170);
         $this->weight = rand(60, 80);
     }
+
+    public function echoMyStatus()
+    {
+        foreach (get_object_vars($this) as $k => $v) {
+            echo($k.':'.$v.'<br>');
+        }
+        echo('<br>');
+    }
 }

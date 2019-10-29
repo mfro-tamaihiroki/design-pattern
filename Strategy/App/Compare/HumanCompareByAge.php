@@ -9,7 +9,7 @@
 namespace App\Compare;
 
 use App\Compare\Interfaces\HumanCompareInterface;
-use App\Human\Human\Human;
+use App\Human\Human;
 
 /**
  * Class HumanCompareByAge

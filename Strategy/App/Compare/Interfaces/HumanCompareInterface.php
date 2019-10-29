@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Compare\Interfaces;
-use App\Human\Human\Human;
+use App\Human\Human;
 
 /**
  * Interface HumanCompareInterface

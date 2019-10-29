@@ -2,7 +2,7 @@
 namespace App;
 
 use App\Compare\Interfaces\HumanCompareInterface;
-use App\Human;
+use App\Human\Human;
 
 class MyClass
 {
