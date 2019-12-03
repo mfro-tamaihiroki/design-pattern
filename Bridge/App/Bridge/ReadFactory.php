@@ -2,6 +2,8 @@
 
 namespace App\Bridge;
 
+use Exception;
+
 class ReadFactory
 {
     const READ_TYPE_JSON = 1;
@@ -10,17 +12,25 @@ class ReadFactory
     /**
      * @param $read_type
      * @param $path
-     * @return Output | false
+     * @return OutputAuto
      */
-    public static function getInstance($read_type, $path)
+    public static function createOutputAuto($read_type, $path): OutputAuto
     {
-        switch ($read_type){
-            case self::READ_TYPE_JSON:
-                return new OutputAuto(new JsonFileDataManage($path));
+        try {
+            switch ($read_type) {
+                case self::READ_TYPE_JSON:
+                    return new OutputAuto(new JsonFileDataManage($path));
 
-            case self::READ_TYPE_CSV:
-                return new OutputAuto(new CsvFileDataManage($path));
+                case self::READ_TYPE_CSV:
+                    return new OutputAuto(new CsvFileDataManage($path));
+
+                default:
+                    throw new Exception('read type not found');
+            }
+
+        } catch (Exception $e) {
+            echo($e->getMessage());
+            exit();
         }
-        return false;
     }
 }

@@ -7,8 +7,23 @@ namespace App\Brige\Interfaces;
  */
 interface FileDataManageInterface
 {
-    public function read();
-    public function display();
-    public function getTotalCount();
-    public function getPointer();
+    /**
+     * @return bool
+     */
+    public function read(): bool;
+
+    /**
+     * @return bool
+     */
+    public function display(): bool;
+
+    /**
+     * @return int
+     */
+    public function getTotalCount(): int;
+
+    /**
+     * @return int
+     */
+    public function getPointer(): int;
 }

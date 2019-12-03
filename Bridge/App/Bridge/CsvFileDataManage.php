@@ -2,7 +2,9 @@
 
 namespace App\Bridge;
 
+
 use App\Brige\Interfaces\FileDataManageInterface;
+use Exception;
 use SplFileObject;
 
 class CsvFileDataManage implements FileDataManageInterface
@@ -21,24 +23,56 @@ class CsvFileDataManage implements FileDataManageInterface
         $this->csv_path = $csv_path;
     }
 
-    public function read()
+    /**
+     * @return bool
+     */
+    public function read(): bool
     {
-        $this->data = $this->get_csv($this->csv_path);
-        $this->data_total = count($this->data);
+        try {
+            if (!file_exists($this->csv_path)) {
+                throw new Exception('file not found');
+            }
+            $this->data = $this->getCsv($this->csv_path);
+            $this->data_total = count($this->data);
+
+        } catch (Exception $e) {
+            echo($e->getMessage());
+            return false;
+        }
+        return true;
     }
 
-    public function display()
+    /**
+     * @return bool
+     */
+    public function display(): bool
     {
-        echo($this->data[$this->pointer]['id'] .'/'. $this->data[$this->pointer]['fullName'].'<br>');
-        $this->pointer++;
+        try {
+            if (empty($this->data[$this->pointer])) {
+                throw new Exception('not found');
+            }
+            echo($this->data[$this->pointer]['id'] . '/' . $this->data[$this->pointer]['fullName'] . '<br>');
+            $this->pointer++;
+            return true;
+
+        } catch (Exception $e) {
+            echo($e->getMessage());
+            return false;
+        }
     }
 
-    public function getTotalCount()
+    /**
+     * @return int
+     */
+    public function getTotalCount(): int
     {
         return $this->data_total;
     }
 
-    public function getPointer()
+    /**
+     * @return int
+     */
+    public function getPointer(): int
     {
         return $this->pointer;
     }
@@ -47,23 +81,20 @@ class CsvFileDataManage implements FileDataManageInterface
      * CSVローダー
      * ネットからのパクりもん
      *
-     * @param string $csvfile CSVファイルパス
+     * @param string $csv_file CSVファイルパス
      * @param string $mode `sjis` ならShift-JISでカンマ区切り、 `utf16` ならUTF-16LEでタブ区切りのCSVを読む。'utf8'なら文字コード変換しないでカンマ区切り。
      * @return array ヘッダ列をキーとした配列を返す
      */
-    function get_csv($csvfile, $mode='sjis')
+    private function getCsv($csv_file, $mode = 'sjis')
     {
-        // ファイル存在確認
-        if(!file_exists($csvfile)) return false;
-
         // 文字コードを変換しながら読み込めるようにPHPフィルタを定義
-        if($mode === 'sjis')  $filter = 'php://filter/read=convert.iconv.cp932%2Futf-8/resource='.$csvfile;
-        else if($mode === 'utf16') $filter = 'php://filter/read=convert.iconv.utf-16%2Futf-8/resource='.$csvfile;
-        else if($mode === 'utf8')  $filter = $csvfile;
+        if ($mode === 'sjis') $filter = 'php://filter/read=convert.iconv.cp932%2Futf-8/resource=' . $csv_file;
+        else if ($mode === 'utf16') $filter = 'php://filter/read=convert.iconv.utf-16%2Futf-8/resource=' . $csv_file;
+        else if ($mode === 'utf8') $filter = $csv_file;
 
         // SplFileObject()を使用してCSVロード
         $file = new SplFileObject($filter);
-        if($mode === 'utf16') $file->setCsvControl("\t");
+        if ($mode === 'utf16') $file->setCsvControl("\t");
         $file->setFlags(
             SplFileObject::READ_CSV |
             SplFileObject::SKIP_EMPTY |
@@ -72,17 +103,16 @@ class CsvFileDataManage implements FileDataManageInterface
 
         // 各行を処理
         $records = array();
-        foreach ($file as $i => $row)
-        {
+        foreach ($file as $i => $row) {
             // 1行目はキーヘッダ行として取り込み
-            if($i===0) {
-                foreach($row as $j => $col) $colbook[$j] = $col;
+            if ($i === 0) {
+                foreach ($row as $j => $col) $colbook[$j] = $col;
                 continue;
             }
 
             // 2行目以降はデータ行として取り込み
             $line = array();
-            foreach($colbook as $j=>$col) $line[$colbook[$j]] = @$row[$j];
+            foreach ($colbook as $j => $col) $line[$colbook[$j]] = @$row[$j];
             $records[] = $line;
         }
         return $records;
