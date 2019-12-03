@@ -7,6 +7,10 @@ use App\Brige\Interfaces\FileDataManageInterface;
 
 class OutputAuto extends Output
 {
+    /**
+     * OutputAuto constructor.
+     * @param FileDataManageInterface $dataManege
+     */
     public function __construct(FileDataManageInterface $dataManege)
     {
         parent::__construct($dataManege);
