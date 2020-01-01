@@ -1,14 +1,13 @@
-function count() {
-    let count = 0;
+function count(memberCount = 0) {
+    let count = memberCount;
 
     return function () {
-        console.log(count);
-        count++;
+        return count++;
     };
 }
 
-let l = count();
+let l = count(22);
 
 l();
 l();
-l();
+console.log(l());
